@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#627b63">
+  <meta name="description" content="InventarisJihan&Prisca - Sistem Inventaris Ruangan berbasis LocalStorage">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+  <title>InventarisJihan&Prisca | Sistem Inventaris Ruangan</title>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark"><img src="icons/icon-192.png" alt="Logo InventarisKu"></div><div><div class="brand-name">Inventaris<span>Ku</span></div><small>RUANG TERTATA</small></div></div>
+      <div class="side-rule"></div><p class="eyebrow">MENU UTAMA</p>
+      <nav>
+        <button class="nav-item active" data-scroll="top">▥ <span>Ringkasan</span><b>•</b></button>
+        <button class="nav-item" id="navAdd">＋ <span>Tambah barang</span></button>
+        <button class="nav-item" data-scroll="inventory">▦ <span>Daftar inventaris</span><b id="navCount">0</b></button>
+      </nav>
+      <div class="sidebar-bottom"><div class="mini-note"><span class="stamp">✓</span><div><strong>Rapi sejak hari ini</strong><small>Data tersimpan otomatis</small></div></div><button class="nav-item muted" id="themeBtn">◐ <span>Ganti tema</span></button><div class="profile"><span class="avatar">AR</span><div><strong>Admin Ruangan</strong><small>Pengelola inventaris</small></div></div></div>
+    </aside>
+    <main class="content" id="top">
+      <header class="topbar"><button class="mobile-menu" id="mobileMenu">☰</button><div class="breadcrumb"><span>WORKSPACE</span> / Ringkasan</div><div class="top-actions"><span class="sync"><i></i> Tersinkronisasi</span><button class="theme-icon" id="themeIcon">☾</button><span class="avatar top-avatar">AR</span></div></header>
+      <section class="hero"><div class="hero-copy"><div class="archive-stamp">♧ RUANG TERKURASI</div><p class="section-index">01 / RINGKASAN</p><h1>Ruang yang tertata,<br><em>keputusan lebih cepat.</em></h1><p class="lead">Kelola seluruh inventaris ruangan dalam satu catatan digital yang sederhana dan selalu siap dibuka.</p><button class="primary-btn" id="heroAdd">＋ Catat barang baru</button></div><div class="hero-art"><img src="https://images.unsplash.com/photo-1594620302200-9a762244a156?auto=format&fit=crop&w=1000&q=85" alt="Rak penyimpanan tertata"><div class="hero-tag">● Lembar kerja aktif<br><strong>Inventaris semester genap</strong></div></div></section>
+      <section class="stats-grid"><article class="stat-card moss"><div class="stat-top">Total barang <span>▦</span></div><strong id="totalItems">0</strong><small>unit</small><p>— <span id="kindItems">0 jenis barang</span></p></article><article class="stat-card gold"><div class="stat-top">Kondisi baik <span>✓</span></div><strong id="goodItems">0</strong><small>unit</small><p>— <span id="goodPercent">0% dari total</span></p></article><article class="stat-card coral"><div class="stat-top">Perlu perhatian <span>ϟ</span></div><strong id="brokenItems">0</strong><small>unit</small><p>— Rusak ringan & berat</p></article></section>
+      <section class="workspace" id="inventory"><div class="section-heading"><div><p class="section-index">02 / CATATAN INVENTARIS</p><h2>Daftar inventaris</h2></div><div class="quick-actions"><button class="secondary-btn" id="exportBtn">⇩ Export</button><button class="secondary-btn" id="importBtn">⇧ Import</button><input type="file" id="importFile" accept="application/json" hidden></div></div><div class="toolbar"><label class="search-box">⌕ <input id="searchInput" type="search" placeholder="Cari nama barang atau kode..."></label><select id="roomFilter"><option>Semua ruangan</option></select><select id="conditionFilter"><option>Semua kondisi</option><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option></select></div><div class="table-card"><div class="table-head"><span>BARANG</span><span>KODE & RUANGAN</span><span>JUMLAH</span><span>KONDISI</span><span>AKSI</span></div><div id="inventoryList"></div></div><div class="table-footer"><span>Menampilkan <b id="shownCount">0</b> dari <b id="allCount">0</b> catatan</span><span>⇩ Data aman di LocalStorage</span></div></section><footer><span>InventarisKu / 2024</span><span>Dibuat untuk ruang yang lebih teratur.</span></footer>
+    </main>
+  </div>
+  <div class="modal-backdrop" id="formModal" hidden><div class="modal"><button class="close-btn" data-close>×</button><p class="section-index" id="modalIndex">CATAT / 03</p><h2 id="modalTitle">Catat barang baru</h2><p class="modal-subtitle">Tambahkan detail barang ke dalam catatan ruangan.</p><form id="inventoryForm"><label>Nama barang<input id="itemName" required placeholder="Contoh: Laptop Lenovo ThinkPad"></label><div class="form-two"><label>Kode inventaris<input id="itemCode" required placeholder="LAB-001"></label><label>Jumlah<input id="itemQuantity" required type="number" min="1" value="1"></label></div><label>Nama ruangan<input id="itemRoom" required placeholder="Contoh: Lab Komputer"></label><label>Kondisi barang<select id="itemCondition"><option>Baik</option><option>Rusak Ringan</option><option>Rusak Berat</option></select></label><div class="form-actions"><button type="button" class="secondary-btn" data-close>Batal</button><button class="primary-btn" type="submit">✓ Simpan barang</button></div></form></div></div>
+  <div class="modal-backdrop" id="deleteModal" hidden><div class="modal confirm"><button class="close-btn" data-close>×</button><div class="danger-icon">⌫</div><p class="section-index">KONFIRMASI HAPUS</p><h2>Hapus catatan ini?</h2><p>Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.</p><div class="form-actions"><button class="secondary-btn" data-close>Batal</button><button class="danger-btn" id="confirmDelete">⌫ Hapus data</button></div></div></div>
+  <div class="toast" id="toast" hidden>✓ <span></span></div>
+  <script src="script.js"></script>
+</body>
+</html>
